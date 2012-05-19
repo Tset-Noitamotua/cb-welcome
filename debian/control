@@ -8,7 +8,7 @@ Homepage: http://crunchbang.org/
 
 Package: cb-welcome
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, terminator
+Depends: ${shlibs:Depends}, ${misc:Depends}, terminator, cb-pipemenus
 Description: CrunchBang welcome script.
  Optional post installation script for CrunchBang Linux.
  .
