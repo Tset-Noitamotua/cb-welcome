@@ -5,13 +5,17 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
   INSTALL DEVELOPMENT PACKAGES
   ----------------------------
   The remaining screens will offer you the chance to install less commonly
-  used packages used for developing software. Would you like to view these
-  options/screens?
+  used packages used for developing software.
+"
 
-  Hit any key to see development screens, or \"s\" to skip to the end..."
+while true; do
+	read -p "  Would you like to view these options/screens? [Y/n]" a
 
-read -n1 a
-a=`echo $a | tr '[A-Z]' '[a-z]'`
-if [ "$a" != "s" ]; then
-    DEVEL=true
-fi
+	if [[ -z "$a" || "$a" =~ ^[Yy]$ ]]; then
+		echo ""
+		DEVEL=true
+		break
+	elif [[ "$a" =~ ^[Nn]$ ]]; then
+		break
+	fi
+done
