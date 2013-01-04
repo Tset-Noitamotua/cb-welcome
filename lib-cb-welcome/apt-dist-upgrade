@@ -8,13 +8,16 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
   If you choose to do this, this script will execute the command:
 
       sudo apt-get dist-upgrade
+"
 
-  Hit any key to update your system, or \"s\" to skip..."
+while true; do
+	read -p "  Would you like to update your system now? [Y/n]" a
 
-
-read -n1 a
-a=`echo $a | tr '[A-Z]' '[a-z]'`
-if [ "$a" != "s" ]; then
-    echo ""
-    sudo apt-get dist-upgrade -y
-fi
+	if [[ -z "$a" || "$a" =~ ^[Yy]$ ]]; then
+		echo ""
+		sudo apt-get dist-upgrade -y
+		break
+	elif [[ "$a" =~ ^[Nn]$ ]]; then
+		break
+	fi
+done
