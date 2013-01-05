@@ -10,17 +10,8 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
 
       cups cups-pdf system-config-printer printer-driver-hpijs
 
-  Note: additional packages listed as dependencies may also be installed.
-  "
+  Note: additional packages listed as dependencies may also be installed."
 
-while true; do
-	read -p "  Would you like to install printer support? [Y/n]" a
-
-	if [[ -z "$a" || "$a" =~ ^[Yy]$ ]]; then
-		echo ""
-		sudo apt-get install -y cups cups-pdf system-config-printer printer-driver-hpijs
-		break
-	elif [[ "$a" =~ ^[Nn]$ ]]; then
-		break
-	fi
-done
+if prompt "  Would you like to install printer support?"; then
+	sudo apt-get install -y cups cups-pdf system-config-printer printer-driver-hpijs
+fi

@@ -58,6 +58,14 @@ else
     exit 1
 fi
 
+# Import prompt
+if [[ -f "${LIBDIR}/prompt" ]]; then
+	source "${LIBDIR}/prompt"
+else
+	echo "Error: Failed to locate prompt"
+	exit 1
+fi
+
 # Run through steps
 STEP=$((STEP+1))
 . $LIBDIR/intro

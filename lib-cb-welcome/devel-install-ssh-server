@@ -12,17 +12,8 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
 
   Note: additional packages listed as dependencies may also be installed.
 
-  For more information see: http://www.openssh.com/
-"
+  For more information see: http://www.openssh.com/"
 
-while true; do
-	read -p "  Would you like to install openssh-server? [Y/n]" a
-
-	if [[ -z "$a" || "$a" =~ ^[Yy]$ ]]; then
-		echo ""
-		sudo apt-get install -y openssh-server
-		break
-	elif [[ "$a" =~ ^[Nn]$ ]]; then
-		break
-	fi
-done
+if prompt "  Would you like to install openssh-server?"; then
+	sudo apt-get install -y openssh-server
+fi

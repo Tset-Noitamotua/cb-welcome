@@ -10,19 +10,8 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
       git git-gui git-cvs git-svn git-email mercurial
       subversion subversion-tools bzr bzrtools cvs thunar-vcs-plugin
 
-  Note: additional packages listed as dependencies may also be installed.
+  Note: additional packages listed as dependencies may also be installed."
 
-  Hit any key to install version control tools, or \"s\" to skip...
-"
-
-while true; do
-	read -p "  Would you like to install version control tools? [Y/n]" a
-
-	if [[ -z "$a" || "$a" =~ ^[Yy]$ ]]; then
-		echo ""
-		sudo apt-get install -y git git-gui git-cvs git-svn git-email mercurial subversion subversion-tools bzr bzrtools cvs thunar-vcs-plugin
-		break
-	elif [[ "$a" =~ ^[Nn]$ ]]; then
-		break
-	fi
-done
+if prompt "  Would you like to install version control tools?"; then
+	sudo apt-get install -y git git-gui git-cvs git-svn git-email mercurial subversion subversion-tools bzr bzrtools cvs thunar-vcs-plugin
+fi

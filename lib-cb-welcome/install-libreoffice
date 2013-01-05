@@ -11,17 +11,8 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
 
       libreoffice libreoffice-gtk
 
-  Note: additional packages listed as dependencies may also be installed.
-"
+  Note: additional packages listed as dependencies may also be installed."
 
-while true; do
-	read -p "  Would you like to install LibreOffice? [Y/n]" a
-
-	if [[ -z "$a" || "$a" =~ ^[Yy]$ ]]; then
-		echo ""
-		sudo apt-get install -y libreoffice libreoffice-gtk
-		break
-	elif [[ "$a" =~ ^[Nn]$ ]]; then
-		break
-	fi
-done
+if prompt "  Would you like to install LibreOffice?"; then
+	sudo apt-get install -y libreoffice libreoffice-gtk
+fi
