@@ -1,6 +1,6 @@
 clear
 
-echo "  -----------------------------[ screen $STEPS of $STEPS ]----------------------------
+echo "  -----------------------------[ screen $STEP of $STEPS ]----------------------------
 
   INSTALL DEVELOPER ENVIRONMENT FOR DEBIAN PACKAGING
   --------------------------------------------------
