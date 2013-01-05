@@ -7,14 +7,8 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
   Would you like to update the installed packages on your system?
   If you choose to do this, this script will execute the command:
 
-      sudo apt-get dist-upgrade
+      sudo apt-get dist-upgrade"
 
-  Hit any key to update your system, or \"s\" to skip..."
-
-
-read -n1 a
-a=`echo $a | tr '[A-Z]' '[a-z]'`
-if [ "$a" != "s" ]; then
-    echo ""
-    sudo apt-get dist-upgrade -y
+if prompt "  Whould you like to update your system now?"; then
+	sudo apt-get dist-upgrade -y
 fi

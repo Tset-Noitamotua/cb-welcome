@@ -12,13 +12,8 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
 
   Note: additional packages listed as dependencies may also be installed.
 
-  For more information see: http://www.openssh.com/
+  For more information see: http://www.openssh.com/"
 
-  Hit any key to install openssh-server, or \"s\" to skip..."
-
-read -n1 a
-a=`echo $a | tr '[A-Z]' '[a-z]'`
-if [ "$a" != "s" ]; then
-    echo ""
-    sudo apt-get install -y openssh-server
+if prompt "  Would you like to install openssh-server?"; then
+	sudo apt-get install -y openssh-server
 fi
