@@ -1,3 +1,10 @@
+cb-welcome (0.05) unstable; urgency=low
+
+  [ Jason Liquorish ]
+  * Fixed issue #3 - improve user prompts.
+
+ -- Philip Newborough <corenominal@corenominal.org>  Sun, 06 Jan 2013 19:00:07 +0000
+
 cb-welcome (0.04) unstable; urgency=low
 
   * Add cb-pipemenus to depends.
