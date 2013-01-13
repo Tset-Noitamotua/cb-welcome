@@ -5,16 +5,15 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
   INSTALL LAMP STACK
   ------------------
   Would you like to install Apache2 webserver with PHP scripting support and
-  MySQL database server? If you choose to do this, the following packages
+  MySQL database server? If you choose to do this, the following package
   will be installed:
 
-      apache2 mysql-server php5 php-pear php5-gd php5-mysql php5-imagick
-      php5-curl curl phpmyadmin rsync cronolog
+      cb-meta-lamp
 
-  Note: additional packages listed as dependencies may also be installed."
+  Note: additional packages listed as dependencies will also be installed."
 
 if prompt "  Would you like to install LAMP stack?"; then
-	sudo apt-get install -y apache2 mysql-server php5 php-pear php5-gd php5-mysql php5-imagick php5-curl curl phpmyadmin rsync cronolog
+	sudo apt-get install -y cb-meta-lamp
 
 	# Enable modrewrite - does this work?
 	if [ -d /etc/apache2/sites-available ]; then

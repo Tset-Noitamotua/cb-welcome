@@ -1,3 +1,10 @@
+cb-welcome (0.06) unstable; urgency=low
+
+  * Switch all hardcoded deps to new metapackages.
+  * Update standards version to 3.9.4.
+
+ -- Philip Newborough <corenominal@corenominal.org>  Sun, 13 Jan 2013 10:43:39 +0000
+
 cb-welcome (0.05) unstable; urgency=low
 
   [ Jason Liquorish ]

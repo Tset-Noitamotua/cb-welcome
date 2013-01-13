@@ -5,13 +5,13 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
   PRINTER SUPPORT
   ---------------
   By default, CrunchBang does not come with printer support. Would you like
-  to add printer support now? If you choose to do this, the following packages
+  to add printer support now? If you choose to do this, the following package
   will be installed:
 
-      cups cups-pdf system-config-printer printer-driver-hpijs
+      cb-meta-printer-support
 
-  Note: additional packages listed as dependencies may also be installed."
+  Note: additional packages listed as dependencies will also be installed."
 
 if prompt "  Would you like to install printer support?"; then
-	sudo apt-get install -y cups cups-pdf system-config-printer printer-driver-hpijs
+	sudo apt-get install -y cb-meta-printer-support
 fi
