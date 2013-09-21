@@ -24,8 +24,7 @@ echo "  -----------------------------[ screen $STEP of $STEPS ]-----------------
   Hit any key to continue, or \"q\" to quit..."
 
 read -n1 a
-a=`echo $a | tr '[A-Z]' '[a-z]'`
-if [ "$a" = "q" ]; then
+if [[ ${a^} = 'Q' ]]; then
     clear
     exit 0
 fi

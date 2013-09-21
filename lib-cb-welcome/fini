@@ -19,5 +19,5 @@ echo "  -----------------------------[ screen $STEPS of $STEPS ]----------------
 
   Hit any key to exit..."
 
-read -n1 a
+read -n1
 clear
