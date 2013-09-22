@@ -1,7 +1,5 @@
 #!/bin/bash
 # Post installation script
-# ------------------------
-# First run
 
 createFlag() {
     mkdir -p "/home/$USER/.config/crunchbang"
@@ -9,28 +7,19 @@ createFlag() {
 }
 
 runInTerminal() {
-    if [[ -x /usr/bin/terminator ]]; then
-        terminator --title='#! Post-installation Script' --command='cb-welcome'
-        exit 0
-#    else # Fallback to xterm?
-#        xterm -T '#! Post-installation Script' -e 'cb-welcome'
-    fi
+    x-terminal-emulator -e 'cb-welcome'
+    exit 0
 }
 
+# First run
 if [[ $1 = '--firstrun' ]]; then
-    if [[ -d /live/overlay || -e /home/$USER/.config/crunchbang/cb-welcome ]]; then
-        exit 0
+    if [[ -d /live/overlay || -e /home/$USER/.config/crunchbang/cb-welcome || ! $(groups) =~ ( |^)sudo( |$) ]]; then
+        exit 1
     fi
-    
-    if ! [[ $(groups) =~ ( |^)sudo( |$) ]]; then
-        createFlag
-        exit 0
-    fi
-    
     runInTerminal
 fi
 
-# Open in terminator
+# Open in terminal
 if [[ $1 = '--open' ]]; then
     runInTerminal
 fi
@@ -42,10 +31,10 @@ if ! [[ $(groups) =~ ( |^)sudo( |$) ]]; then
   exit 1
 fi
 
-LIBDIR='/home/alex/git/cb-welcome/lib-cb-welcome' #'/usr/lib/lib-cb-welcome'
+LIBDIR='/usr/lib/lib-cb-welcome'
 
 # Importing variables and functions from cb-include.cfg
-if [[ -f /usr/bin/cb-include.cfg ]]; then
+if [[ -f /usr/bin/cb-include.cfg ]]; then # TODO remove cb-include.cfg. Currently it has only one poorly written function to check internet connection.
     source '/usr/bin/cb-include.cfg'
 else
     echo 'Error: Failed to locate cb-include.cfg'
