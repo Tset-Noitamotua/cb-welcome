@@ -1,111 +1,75 @@
 #!/bin/bash
 # Post installation script
-# ------------------------
+
+createFlag() {
+    mkdir -p "/home/$USER/.config/crunchbang"
+    touch "/home/$USER/.config/crunchbang/cb-welcome"
+}
+
+runInTerminal() {
+    x-terminal-emulator -e 'cb-welcome'
+    exit 0
+}
+
 # First run
-if [ "$1" = "--firstrun" ]; then
-    if [ -d /live/overlay ]; then
-        exit 0    
+if [[ $1 = '--firstrun' ]]; then
+    if [[ -d /live/overlay || -e /home/$USER/.config/crunchbang/cb-welcome || ! $(groups) =~ ( |^)sudo( |$) ]]; then
+        exit 1
     fi
-    if [ -e "/home/$USER/.config/crunchbang/cb-welcome" ]; then
-        exit 0
-    else
-        if ! echo `groups` | grep "sudo" >/dev/null; then
-            # Create flag
-            if [ ! -d "/home/$USER/.config/crunchbang" ]; then
-                mkdir /home/$USER/.config/crunchbang
-            fi
-            if [ ! -f "/home/$USER/.config/crunchbang/cb-welcome" ]; then
-                 touch /home/$USER/.config/crunchbang/cb-welcome
-            fi
-            exit 0
-        fi
-	if [ -x "/usr/bin/terminator" ];then
-            terminator --title="#! Post-installation Script" --command="cb-welcome"
-            exit 0
-        fi
-    fi
-fi
-# Open in terminator
-if [ "$1" = "--open" ]; then
-    if [ -x "/usr/bin/terminator" ];then
-        terminator --title="#! Post-installation Script" --command="cb-welcome"
-        exit 0
-    fi
-fi
-# Create flag
-if [ ! -d "/home/$USER/.config/crunchbang" ]; then
-    mkdir /home/$USER/.config/crunchbang
-fi
-if [ ! -f "/home/$USER/.config/crunchbang/cb-welcome" ]; then
-    touch /home/$USER/.config/crunchbang/cb-welcome
+    runInTerminal
 fi
 
-if ! echo `groups` | grep "sudo" >/dev/null; then
-  echo "Error: must be a member of the sudo group to run this script."
-  exit 0
+# Open in terminal
+if [[ $1 = '--open' ]]; then
+    runInTerminal
 fi
 
-# Vars
-LIBDIR="/usr/lib/lib-cb-welcome"
-STEP="0"
-STEPS=`ls -1 $LIBDIR | wc -l`
+createFlag
+
+if ! [[ $(groups) =~ ( |^)sudo( |$) ]]; then
+  echo 'Error: must be a member of the sudo group to run this script.' # TODO 'root' user is not a member of the sudo group. Is it meant to restrict root from executing this script?
+  exit 1
+fi
+
+LIBDIR='/usr/lib/lib-cb-welcome'
+
 # Importing variables and functions from cb-include.cfg
-if [[ -f /usr/bin/cb-include.cfg ]]
-then
-    source "/usr/bin/cb-include.cfg"
+if [[ -f /usr/bin/cb-include.cfg ]]; then # TODO remove cb-include.cfg. Currently it has only one poorly written function to check internet connection.
+    source '/usr/bin/cb-include.cfg'
 else
-    echo "Error: Failed to locate cb-include.cfg"
+    echo 'Error: Failed to locate cb-include.cfg'
     exit 1
 fi
 
 # Import prompt
-if [[ -f "${LIBDIR}/prompt" ]]; then
+if [[ -f ${LIBDIR}/prompt ]]; then
 	source "${LIBDIR}/prompt"
 else
-	echo "Error: Failed to locate prompt"
+	echo 'Error: Failed to locate prompt'
 	exit 1
 fi
 
 # Run through steps
-STEP=$((STEP+1))
-. $LIBDIR/intro
+STEPS_BASIC=('apt-update' 'apt-dist-upgrade' 'install-printer-packages' 'install-java-packages' 'install-libreoffice' 'devel')
+STEPS_DEVEL=('devel-install-version-control-tools' 'devel-install-ssh-server' 'devel-install-lamp-stack' 'devel-install-packaging-tools')
+STEP=1
+(( STEPS = ${#STEPS_BASIC[@]} + ${#STEPS_DEVEL[@]} + 2 )) # 2 is intro and fini
 
+. "$LIBDIR/intro"
 connectiontest
 
-STEP=$((STEP+1))
-. $LIBDIR/apt-update
+for curStep in "${STEPS_BASIC[@]}"; do
+    ((STEP++))
+    . "$LIBDIR/$curStep"
+done
 
-STEP=$((STEP+1))
-. $LIBDIR/apt-dist-upgrade
-
-STEP=$((STEP+1))
-. $LIBDIR/install-printer-packages
-
-STEP=$((STEP+1))
-. $LIBDIR/install-java-packages
-
-STEP=$((STEP+1))
-. $LIBDIR/install-libreoffice
-
-STEP=$((STEP+1))
-. $LIBDIR/devel
-
-if [ "$DEVEL" != true ]; then
-    . $LIBDIR/fini
-    exit 0
+if [[ $DEVEL ]]; then
+    for curStep in "${STEPS_DEVEL[@]}"; do
+        ((STEP++))
+        . "$LIBDIR/$curStep"
+    done
 fi
 
-STEP=$((STEP+1))
-. $LIBDIR/devel-install-version-control-tools
+. "$LIBDIR/fini"
 
-STEP=$((STEP+1))
-. $LIBDIR/devel-install-ssh-server
-
-STEP=$((STEP+1))
-. $LIBDIR/devel-install-lamp-stack
-
-STEP=$((STEP+1))
-. $LIBDIR/devel-install-packaging-tools
-
-. $LIBDIR/fini
 exit 0

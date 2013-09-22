@@ -16,19 +16,17 @@ if prompt "  Would you like to install LAMP stack?"; then
 	sudo apt-get install -y cb-meta-lamp
 
 	# Enable modrewrite - does this work?
-	if [ -d /etc/apache2/sites-available ]; then
-		A2D="/etc/apache2/sites-available"
-		if [ -f "$A2D/default" ]; then
-			sudo touch $A2D/default2
-			sudo chown $USER:$USER $A2D/default2
-			sudo chown $USER:$USER $A2D/default
-			sudo cat $A2D/default | sed '9,14 s/AllowOverride None/AllowOverride All/' >$A2D/default2
-			sudo mv -f $A2D/default2 $A2D/default
-			sudo chown root:root $A2D/default
-			sudo a2enmod rewrite
-			sudo /etc/init.d/apache2 restart
-		fi
-	fi
+    A2D='/etc/apache2/sites-available'
+    if [[ -f $A2D/default ]]; then
+        sudo touch "$A2D/default2"
+        sudo chown "$USER:$USER" "$A2D/default2"
+        sudo chown "$USER:$USER" "$A2D/default"
+        sudo cat "$A2D/default" | sed '9,14 s/AllowOverride None/AllowOverride All/' > "$A2D/default2"
+        sudo mv -f "$A2D/default2" "$A2D/default"
+        sudo chown root:root "$A2D/default"
+        sudo a2enmod rewrite
+        sudo /etc/init.d/apache2 restart
+    fi
 		
 	clear
 		
@@ -46,9 +44,7 @@ if prompt "  Would you like to install LAMP stack?"; then
   using apache2's 'userdir' module instead."
   
 	if prompt "  Would you like to create the symlink?"; then
-		if [ ! -d "/home/$USER/htdocs" ]; then
-			mkdir /home/$USER/htdocs
-		fi
-		sudo ln -s /home/$USER/htdocs /var/www/$USER
+        mkdir -p "/home/$USER/htdocs"
+		sudo ln -s "/home/$USER/htdocs" "/var/www/$USER"
 	fi
 fi
